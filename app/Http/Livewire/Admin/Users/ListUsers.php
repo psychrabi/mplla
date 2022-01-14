@@ -11,6 +11,7 @@ class ListUsers extends AdminComponent
 {
     public $header = "Users";
     public $user = [];
+    public string $search = '';
     protected $rules = [
         'name' => 'required',
         'email' => 'required|email',
@@ -28,7 +29,9 @@ class ListUsers extends AdminComponent
 
     public function render()
     {
-        $users = User::latest()->paginate(5);
+        $users = User::search($this->search)->paginate(5);
+
+
         return view('livewire.admin.users.list-users', ['users' => $users]);
     }
 

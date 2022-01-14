@@ -17,4 +17,13 @@ class Appointment extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public static function search($search)
+    {
+        return empty($search) ? static::query() :
+            static::whereHas('client', function($query) use ($search){
+                $query->where('clients.name', 'like', '%' . $search . '%');
+            });
+    }
+
+
 }
