@@ -96,12 +96,14 @@
 <script src="{{asset('backend/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 
 
+
 script
 
 <!-- REQUIRED SCRIPTS -->
 
 <!-- AdminLTE App -->
 <script src="{{asset('backend/js/adminlte.js')}}"></script>
+
 <script>
     window.addEventListener('show-modal', (event) => {
         let myModal = new bootstrap.Modal(document.getElementById(event.detail.modalName))
@@ -112,6 +114,7 @@ script
     window.addEventListener('hide-modal', event => {
         bootstrap.Modal.getInstance(document.getElementById(event.detail.target)).hide();
     });
+
     window.addEventListener('swal:modal', event => {
         Swal.fire({
             icon: event.detail.icon,

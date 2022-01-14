@@ -1,5 +1,5 @@
 <div>
-@includeIf("layouts.partials.heading",['header' => 'Users'])
+@includeIf("layouts.partials.heading",['header' => $header])
 <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -99,8 +99,6 @@
                                             </td>
                                         </tr>
                                     @endforelse
-
-
                                     </tbody>
                                 </table>
                             </div>
@@ -108,8 +106,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <a href="javascript:void(0)" class="btn btn-sm btn-primary float-start">Place New Order</a>
-                            <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-end">View All Orders</a>
+                            {{$users->links()}}
                         </div>
 
                     </div>
@@ -129,7 +126,7 @@
                     <form class="needs-validation" novalidate wire:submit.prevent="save">
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addUserModalLabel">Add user</h5>
+                            <h5 class="modal-title" id="addUserModalLabel" wire:ignore>Add user</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

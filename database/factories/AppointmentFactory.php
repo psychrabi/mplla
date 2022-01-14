@@ -17,7 +17,7 @@ class AppointmentFactory extends Factory
             'date' => Carbon::now(),
             'time' => Carbon::now(),
             'status' => $this->faker->word(),
-            'note' => $this->faker->word(),
+            'note' => $this->faker->sentences(10),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

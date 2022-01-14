@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Users;
 
+use App\Http\Livewire\Admin\AdminComponent;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Livewire\Component;
 
-class ListUsers extends Component
+class ListUsers extends AdminComponent
 {
-
+    public $header = "Users";
     public $user = [];
     protected $rules = [
         'name' => 'required',
@@ -19,7 +19,6 @@ class ListUsers extends Component
 
     protected $listeners = [
         'delete' => 'delete',
-        'deleteMember' => 'deleteMember',
     ];
 
     public function mount()
@@ -29,7 +28,7 @@ class ListUsers extends Component
 
     public function render()
     {
-        $users = User::latest()->paginate();
+        $users = User::latest()->paginate(5);
         return view('livewire.admin.users.list-users', ['users' => $users]);
     }
 
@@ -51,20 +50,23 @@ class ListUsers extends Component
                 if (isset($this->user['password'])) {
                     $validatedData['password'] = Hash::make($validatedData['password']);
                 }
-
-                User::updateOrCreate(['id'=> $this->user['id']], $validatedData);
             }
+            $user = User::updateOrCreate(['id' => $this->user['id']], $validatedData);
+
+            $this->dispatchBrowserEvent('hide-modal', [
+                'target' => 'addUserModal'
+            ]);
+
+            $this->dispatchBrowserEvent('swal:modal', [
+                'icon' => 'success',
+                'title' => 'Success',
+                'text' => $user->name . ' saved successfully'
+            ]);
+            $this->reset('user');
         }
 
-        $this->dispatchBrowserEvent('hide-modal', [
-            'target' => 'addUserModal'
-        ]);
 
-        $this->dispatchBrowserEvent('swal:modal', [
-            'icon' => 'success',
-            'title' => 'Success',
-            'text' => 'User saved successfully'
-        ]);
+
     }
 
     public function edit(User $user)
